@@ -1,0 +1,83 @@
+[5/28/2026 1:24 AM] g: <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Room - بث مباشر وأفلام</title>
+    <style>
+        :root {
+            --bg-color: #0f0f1a;
+            --panel-bg: #16162a;
+            --accent-color: #ff3b30;
+            --text-color: #ffffff;
+            --neon-blue: #00f2fe;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); display: flex; height: 100vh; overflow: hidden; }
+
+        /* الشاشة الرئيسية للبث */
+        .main-container { flex: 3; display: flex; flex-direction: column; position: relative; background: #000; }
+        .video-wrapper { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; }
+        video { width: 100%; height: 100%; object-fit: contain; box-shadow: 0 0 20px rgba(0, 242, 254, 0.2); }
+
+        /* أدوات التحكم */
+        .controls { padding: 15px; background: var(--panel-bg); display: flex; gap: 15px; align-items: center; justify-content: center; border-top: 2px solid #222; }
+        button { background: linear-gradient(45deg, var(--accent-color), #b30006); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 59, 48, 0.4); }
+        button.share-btn { background: linear-gradient(45deg, #0072ff, var(--neon-blue)); }
+        button.share-btn:hover { box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4); }
+
+        /* قسم الشات الجانبي */
+        .sidebar { flex: 1; max-width: 400px; min-width: 300px; background-color: var(--panel-bg); display: flex; flex-direction: column; border-right: 2px solid #1f1f38; }
+        .room-info { padding: 20px; border-bottom: 1px solid #1f1f38; text-align: center; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 15px; border-radius: 12px; max-width: 80%; word-wrap: break-word; font-size: 14px; }
+        .message.me { background-color: var(--neon-blue); color: #000; align-self: flex-start; }
+        .message.other { background-color: #2a2a48; color: var(--text-color); align-self: flex-end; }
+        
+        .chat-input-area { padding: 15px; display: flex; gap: 10px; background: #0f0f1a; }
+        input[type="text"] { flex: 1; background: #22223b; border: 1px solid #333; padding: 10px; border-radius: 8px; color: white; outline: none; }
+        input[type="text"]:focus { border-color: var(--neon-blue); }
+
+        /* إنشاء الغرفة */
+        .setup-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 10; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px; }
+        .setup-box { background: var(--panel-bg); padding: 40px; border-radius: 15px; border: 1px solid #2a2a48; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+
+    <div id="setupScreen" class="setup-screen">
+        <div class="setup-box">
+            <h2>سينما روم المشتركة</h2>
+            <p style="color: #888; margin-bottom: 20px;">ادخل رقم الغرفة للانضمام أو الإنشاء</p>
+            <input type="text" id="roomInput" placeholder="اكتب اسم أو رقم الغرفة هنا..." style="margin-bottom: 15px; width: 100%; text-align: center;"><br>
+            <button onclick="joinRoom()">دخول الغرفة</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="video-wrapper">
+            <video id="screenVideo" autoplay playsinline></video>
+        </div>
+        <div class="controls">
+            <button id="shareBtn" class="share-btn" onclick="startScreenShare()" style="display: none;">مشاركة الشاشة وبدء الفيلم 🎬</button>
+            <div id="status">جاري الاتصال بالسيرفر...</div>
+        </div>
+[5/28/2026 1:24 AM] g: </div>
+
+    <div class="sidebar">
+        <div class="room-info">
+            <h3>محادثة الغرفة</h3>
+            <span id="roomDisplay" style="color: var(--neon-blue);"></span>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="اكتب رسالة للطرف الآخر..." onkeypress="if(event.key === 'Enter') sendMessage()">
+            <button onclick="sendMessage()">إرسال</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
