@@ -18,7 +18,7 @@ function joinRoom() {
     document.getElementById("setupScreen").style.display = "none";
 
     // ربط مع سيرفر الـ C++ (قم بتغيير الـ IP عند الرفع على السيرفر الخارجي)
-    ws = new WebSocket(`ws://localhost:8080/room/${roomID}`);
+    ws = new WebSocket(`ws = new WebSocket(`ws = new WebSocket(`wss://ghassan-watch.onrender.com/room/${roomID}`);`);
 
     ws.onmessage = async (message) => {
         const data = JSON.parse(message.data);
